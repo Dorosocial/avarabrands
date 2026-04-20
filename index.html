@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avarabrands — Building What's Next</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f6f2;
+  --ink: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #e0ddd6;
+  --accent: #2d6a4f;
+  --accent2: #40916c;
+  --tag-bg: #eef4f0;
+  --tag-color: #2d6a4f;
+  --white: #ffffff;
+  --card: #ffffff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+nav{padding:24px 48px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'DM Serif Display',serif;font-size:20px;color:var(--ink);letter-spacing:-0.5px;}
+.nav-tag{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.hero{padding:100px 48px 80px;max-width:900px;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:32px;}
+.hero-eyebrow::before{content:'';width:20px;height:1px;background:var(--accent);}
+.hero-h1{font-family:'DM Serif Display',serif;font-size:clamp(48px,7vw,88px);line-height:1.05;letter-spacing:-2px;color:var(--ink);margin-bottom:32px;}
+.hero-h1 em{font-style:italic;color:var(--accent);}
+.hero-p{font-size:18px;color:var(--muted);line-height:1.8;max-width:560px;margin-bottom:48px;}
+.hero-stats{display:flex;gap:48px;padding-top:48px;border-top:1px solid var(--border);}
+.stat-num{font-family:'DM Serif Display',serif;font-size:36px;color:var(--ink);letter-spacing:-1px;}
+.stat-label{font-size:12px;color:var(--muted);margin-top:4px;letter-spacing:0.5px;}
+.section-divider{border:none;border-top:1px solid var(--border);margin:0 48px;}
+.what-section{padding:80px 48px;display:grid;grid-template-columns:1fr 2fr;gap:80px;max-width:1100px;}
+.what-label{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding-top:6px;}
+.what-content h2{font-family:'DM Serif Display',serif;font-size:36px;line-height:1.2;letter-spacing:-1px;margin-bottom:20px;}
+.what-content p{font-size:16px;color:var(--muted);line-height:1.8;margin-bottom:16px;}
+.products-section{padding:80px 48px;background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.products-label{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:48px;}
+.products-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;background:var(--border);}
+.product-card{background:var(--white);padding:40px;position:relative;}
+.product-status{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;}
+.status-live{color:var(--accent);}
+.status-live::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;display:inline-block;}
+.status-building{color:#b08d57;}
+.status-building::before{content:'';width:6px;height:6px;background:#b08d57;border-radius:50%;display:inline-block;}
+.product-name{font-family:'DM Serif Display',serif;font-size:24px;letter-spacing:-0.5px;margin-bottom:10px;color:var(--ink);}
+.product-desc{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:20px;}
+.product-tag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;background:var(--tag-bg);color:var(--tag-color);padding:5px 10px;border-radius:3px;}
+.product-tag.ecom{background:#fef3c7;color:#92400e;}
+.product-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--accent);text-decoration:none;margin-top:16px;}
+.product-link:hover{gap:10px;}
+.product-link svg{transition:transform 0.2s;}
+.product-link:hover svg{transform:translateX(3px);}
+.sub-product{background:var(--bg);padding:20px 40px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.sub-product-name{font-size:13px;font-weight:600;color:var(--ink);}
+.sub-product-desc{font-size:12px;color:var(--muted);margin-top:2px;}
+.sub-live{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);}
+.sub-live::before{content:'';width:5px;height:5px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.how-section{padding:80px 48px;max-width:1100px;}
+.how-label{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:48px;}
+.how-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:48px;}
+.how-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:12px;}
+.how-title{font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:10px;}
+.how-desc{font-size:14px;color:var(--muted);line-height:1.7;}
+footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px;}
+.footer-logo{font-family:'DM Serif Display',serif;font-size:18px;color:var(--ink);margin-bottom:8px;}
+.footer-addr{font-size:12px;color:var(--muted);line-height:1.7;font-family:'DM Mono',monospace;}
+.footer-right{text-align:right;}
+.footer-remote{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.footer-tagline{font-size:12px;color:var(--muted);}
+@media(max-width:768px){
+  nav{padding:20px 24px;}
+  .hero{padding:60px 24px 60px;}
+  .hero-stats{flex-wrap:wrap;gap:24px;}
+  .what-section{grid-template-columns:1fr;gap:24px;padding:60px 24px;}
+  .products-section{padding:60px 24px;}
+  .products-grid{grid-template-columns:1fr;}
+  .how-section{padding:60px 24px;}
+  .how-grid{grid-template-columns:1fr;gap:32px;}
+  footer{padding:40px 24px;flex-direction:column;}
+  .footer-right{text-align:left;}
+  .section-divider{margin:0 24px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Avarabrands</div>
+  <div class="nav-tag">Newark, Delaware · Est. 2025</div>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">We are building</div>
+  <h1 class="hero-h1">Tools that make<br>businesses <em>impossible</em><br>to ignore.</h1>
+  <p class="hero-p">We are a small team building focused software products across AI, visibility, and commerce. We do not do everything — we do a few things exceptionally well and ship fast.</p>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">3</div>
+      <div class="stat-label">Products in development</div>
+    </div>
+    <div>
+      <div class="stat-num">1</div>
+      <div class="stat-label">Live and growing</div>
+    </div>
+    <div>
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Problems left to solve</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section class="what-section">
+  <div class="what-label">What we are</div>
+  <div class="what-content">
+    <h2>A builder studio.<br>Not an agency.</h2>
+    <p>Avarabrands is not a consultancy. We do not take on client work or run campaigns for others. We build our own products, find our own customers, and grow our own way.</p>
+    <p>Every product we build solves a real problem for real businesses — and we stay close to that problem until the solution is actually working.</p>
+    <p>We are remote first, move fast, and keep the team lean on purpose.</p>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section class="products-section">
+  <div class="products-label">What we are building</div>
+  <div class="products-grid">
+    <div style="grid-column:1;display:flex;flex-direction:column;">
+      <div class="product-card" style="flex:1;">
+        <div class="product-status status-live">Live</div>
+        <div class="product-name">Appearr AI</div>
+        <p class="product-desc">AI visibility intelligence for local businesses. We audit exactly where businesses stand in AI search — ChatGPT, Gemini, Perplexity — and fix what is costing them revenue.</p>
+        <div class="product-tag">AI Visibility</div>
+        <a href="https://appearrai.io" target="_blank" class="product-link">
+          Visit appearrai.io
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="sub-product">
+        <div>
+          <div class="sub-product-name">LeakProof</div>
+          <div class="sub-product-desc">AI lead capture system for local businesses</div>
+        </div>
+        <div class="sub-live">Live Now</div>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-status status-building">Building</div>
+      <div class="product-name">Appearr AI Tools</div>
+      <p class="product-desc">A suite of standalone AI-powered tools for local businesses — calculators, scorecards, lead audits, and proposal generators. Each tool solves one problem exceptionally well.</p>
+      <div class="product-tag">AI Tools</div>
+    </div>
+    <div class="product-card">
+      <div class="product-status status-building">Early Stage</div>
+      <div class="product-name">E-Commerce Division</div>
+      <p class="product-desc">Our founding vertical. We build and operate direct-to-consumer e-commerce brands with a focus on product quality and efficient customer acquisition. Quietly growing.</p>
+      <div class="product-tag ecom">E-Commerce</div>
+    </div>
+  </div>
+</section>
+
+<section class="how-section">
+  <div class="how-label">How we work</div>
+  <div class="how-grid">
+    <div class="how-item">
+      <div class="how-num">01</div>
+      <div class="how-title">We find a real problem</div>
+      <p class="how-desc">Not a market opportunity. Not a trend. A specific frustration that real people have and are willing to pay to solve. We get close to it before we write a single line of code.</p>
+    </div>
+    <div class="how-item">
+      <div class="how-num">02</div>
+      <div class="how-title">We build the minimum that works</div>
+      <p class="how-desc">No feature bloat. No roadmap theatre. We ship the smallest version that genuinely solves the problem, put it in front of real customers, and learn from what happens.</p>
+    </div>
+    <div class="how-item">
+      <div class="how-num">03</div>
+      <div class="how-title">We grow it or move on</div>
+      <p class="how-desc">If it works we double down. If it does not we cut fast and redirect. We do not hold on to ideas that are not working. We hold on to the mission — building things that matter.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-left">
+    <div class="footer-logo">Avarabrands Inc.</div>
+    <div class="footer-addr">
+      US Ops: 151 Continental Dr, Suite 305<br>
+      Newark, Delaware 19713<br>
+      United States
+    </div>
+  </div>
+  <div class="footer-right">
+    <div class="footer-remote">Remote First · Global Team</div>
+    <div class="footer-tagline">Building what's next — one product at a time.</div>
+    <div style="margin-top:16px;font-size:11px;color:#aaa;">© 2026 Avarabrands Inc. All rights reserved.</div>
+  </div>
+</footer>
+
+</body>
+</html>
