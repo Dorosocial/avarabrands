@@ -14,10 +14,16 @@ def main():
 
     print(f"Connecting to live stream: {LIVE_URL}")
 
-    # Extract raw HLS/stream URL via yt-dlp
+    # Extract raw stream URL via yt-dlp.
+    # NOTE: explicitly requesting the flv-hd format rather than yt-dlp's
+    # default "best" pick. On this stream, "-g" without -f resolves to the
+    # HLS (m3u8) rendition, but TikTok's CDN returns a 503 "zero size
+    # object" for that HLS variant on this broadcast (verified with a raw
+    # curl -D- against the m3u8 URL). The progressive FLV rendition is the
+    # one that's actually live and downloadable.
     try:
         stream_url = subprocess.check_output(
-            ["yt-dlp", "-g", LIVE_URL],
+            ["yt-dlp", "-g", "-f", "flv-hd/flv-hd1/best", LIVE_URL],
             stderr=subprocess.DEVNULL
         ).decode().strip()
     except Exception as e:
