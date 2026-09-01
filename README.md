@@ -22,6 +22,9 @@ npm run dev     # http://localhost:3000/assets/lyric-tower
 
 The dossier splits into three views driven by React state:
 
+Each view keeps its own scroll position, so switching context and returning
+puts the reader back where they were.
+
 1. **Financial Waterfall** — investor metrics, the live underwriting calculator,
    the filterable lease roll, and marketed suites.
 2. **Physical & Component Health** — expandable inspection trays and the asset
@@ -41,7 +44,9 @@ The dossier splits into three views driven by React state:
   `Anchors & Long-Term (2028+)`. Bars rescale and
   the footer re-foots to the visible set, so a filtered subtotal is always
   correct for what is on screen.
-- **Document previews** — any exhibit row opens a modal facsimile. Open exhibits
+- **Document previews** — any exhibit row opens a modal facsimile. Closing by
+  any route (Close, Download, backdrop, Escape) returns focus to that exhibit's
+  Preview control. Open exhibits
   show their first page, NDA exhibits show a redacted body, undelivered ones show
   an expected date. Escape or the backdrop closes it.
 

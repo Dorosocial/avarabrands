@@ -1,6 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 /* ────────────────────────────────────────────────────────────────────────────
    Digital Asset Passport
@@ -723,7 +731,8 @@ function FinancialSchedule({ asset }) {
               );
             })}
             <span className="ml-auto font-mono text-[10px] text-muted">
-              {rows.length} of {asset.leaseRoll.length} vintages · {sf(totals.sf)} SF
+              {rows.length} of {asset.leaseRoll.length} vintages · {sf(totals.sf)} SF ·{" "}
+              <span className="font-semibold text-ink">{totals.pct.toFixed(2)}% of GLA</span>
             </span>
           </div>
 
@@ -1074,6 +1083,7 @@ function ExhibitIndex({ documents, onOpenDoc }) {
                   <td className="whitespace-nowrap px-3 py-2 text-right">
                     <button
                       type="button"
+                      data-preview={d.exhibit}
                       onClick={(e) => {
                         e.stopPropagation();
                         onOpenDoc(d.exhibit);
@@ -1249,14 +1259,17 @@ function DocumentModal({ doc, asset, onClose }) {
 
         {/* Actions */}
         <div className="flex flex-wrap items-center gap-2 border-t border-rule-strong bg-surface px-3 py-3">
+          {/* Stubs: wire to the real file URL when the vault is connected. */}
           <button
             type="button"
-            className="border border-ink bg-ink px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-white transition hover:bg-forest hover:border-forest"
+            onClick={onClose}
+            className="border border-ink bg-ink px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-white transition hover:border-forest hover:bg-forest"
           >
             Download confidential summary
           </button>
           <button
             type="button"
+            onClick={onClose}
             className="border border-rule-strong px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-graphite transition hover:border-graphite"
           >
             View audit log
@@ -1455,14 +1468,57 @@ export default function AssetPassport({ asset }) {
     rate: asset.underwriting.rate.initial,
   });
 
-  const openDoc = useCallback((exhibit) => setDocId(exhibit), []);
-  const closeDoc = useCallback(() => setDocId(null), []);
+  /*
+   * Focus returns to whatever opened the modal. A table row is not focusable,
+   * so clicking one leaves activeElement on <body>; fall back to that row's
+   * own Preview control rather than dropping focus to the top of the document.
+   */
+  const lastFocusRef = useRef(null);
+  const lastExhibitRef = useRef(null);
+  const openDoc = useCallback((exhibit) => {
+    const active = document.activeElement;
+    lastFocusRef.current = active && active !== document.body ? active : null;
+    lastExhibitRef.current = exhibit;
+    setDocId(exhibit);
+  }, []);
+  const closeDoc = useCallback(() => {
+    setDocId(null);
+    const prior = lastFocusRef.current;
+    const exhibit = lastExhibitRef.current;
+    lastFocusRef.current = null;
+    requestAnimationFrame(() => {
+      const target =
+        prior && document.contains(prior)
+          ? prior
+          : document.querySelector(`[data-preview="${exhibit}"]`);
+      target?.focus();
+    });
+  }, []);
 
   /* Opening an exhibit from an inspection tray routes through the vault view. */
   const openDocFromTray = useCallback((exhibit) => {
+    /* The tray unmounts with the view; focus lands on the exhibit's own row. */
+    lastFocusRef.current = null;
+    lastExhibitRef.current = exhibit;
     setView("vault");
     setDocId(exhibit);
   }, []);
+
+  /*
+   * Each view keeps its own scroll position, so switching context and coming
+   * back returns the reader to where they were rather than jumping.
+   */
+  const scrollMemo = useRef({});
+  const changeView = useCallback(
+    (next) => {
+      scrollMemo.current[view] = window.scrollY;
+      setView(next);
+    },
+    [view],
+  );
+  useLayoutEffect(() => {
+    window.scrollTo(0, scrollMemo.current[view] ?? 0);
+  }, [view]);
 
   const doc = useMemo(
     () => asset.documents.find((d) => d.exhibit === docId) ?? null,
@@ -1472,7 +1528,7 @@ export default function AssetPassport({ asset }) {
   return (
     <main className="min-h-screen bg-paper text-ink">
       <Masthead asset={asset} />
-      <DossierNav view={view} onChange={setView} />
+      <DossierNav view={view} onChange={changeView} />
 
       {view === "financial" && (
         <div id="view-financial" role="tabpanel">
