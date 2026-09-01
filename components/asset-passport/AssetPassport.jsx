@@ -25,6 +25,9 @@ const TONES = {
 };
 const tone = (k) => TONES[k] ?? TONES.neutral;
 
+/** Remaining-useful-life banding: healthy, watch, replace. */
+const rulTone = (p) => (p >= 60 ? "forest" : p >= 35 ? "ochre" : "oxblood");
+
 const LABEL = "font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-faint";
 const LINK =
   "font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-graphite underline decoration-rule-strong underline-offset-2 transition hover:text-forest hover:decoration-forest";
@@ -290,11 +293,16 @@ function Slider({ label, value, min, max, step, format, onChange }) {
   );
 }
 
-function UnderwritingCalculator({ asset }) {
+/**
+ * Inputs live in the root so switching dossier views never resets a model the
+ * reader has already dialled in.
+ */
+function UnderwritingCalculator({ asset, inputs, onChange }) {
   const u = asset.underwriting;
-  const [capRate, setCapRate] = useState(u.capRate.initial);
-  const [ltv, setLtv] = useState(u.ltv.initial);
-  const [rate, setRate] = useState(u.rate.initial);
+  const { capRate, ltv, rate } = inputs;
+  const setCapRate = (v) => onChange((s) => ({ ...s, capRate: v }));
+  const setLtv = (v) => onChange((s) => ({ ...s, ltv: v }));
+  const setRate = (v) => onChange((s) => ({ ...s, rate: v }));
 
   const calc = useMemo(() => {
     const price = u.noi / (capRate / 100);
@@ -323,11 +331,8 @@ function UnderwritingCalculator({ asset }) {
   const dscrLabel =
     calc.dscr >= 1.35 ? "CLEARS" : calc.dscr >= u.dscrCovenant ? "TIGHT" : "BREACH";
 
-  const reset = () => {
-    setCapRate(u.capRate.initial);
-    setLtv(u.ltv.initial);
-    setRate(u.rate.initial);
-  };
+  const reset = () =>
+    onChange({ capRate: u.capRate.initial, ltv: u.ltv.initial, rate: u.rate.initial });
   const atDefaults =
     capRate === u.capRate.initial && ltv === u.ltv.initial && rate === u.rate.initial;
 
@@ -491,6 +496,11 @@ function IntegrityRow({ item, open, onToggle, onOpenDoc }) {
             <span className={`font-mono text-2xl font-bold leading-none ${t.text}`}>{item.score}</span>
             <span className={LABEL}>{item.scoreLabel}</span>
           </span>
+          {item.rul ? (
+            <span className="hidden lg:block">
+              <StatusMark label={`${item.rul.pct}% LIFE`} toneKey={rulTone(item.rul.pct)} />
+            </span>
+          ) : null}
           <StatusMark label={item.badge} meta={item.badgeMeta} toneKey={item.tone} />
         </button>
       </h3>
@@ -527,6 +537,39 @@ function IntegrityRow({ item, open, onToggle, onOpenDoc }) {
 
               <div className="border border-rule-strong bg-surface">
                 <p className={`${LABEL} border-b border-rule px-3 py-2`}>Service record</p>
+
+                {/* Remaining useful life against expected service life. */}
+                <div className="border-b border-rule px-3 py-3">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <p className={LABEL}>Remaining useful life</p>
+                    <p
+                      className={`font-mono text-sm font-bold ${
+                        item.rul ? tone(rulTone(item.rul.pct)).text : "text-faint"
+                      }`}
+                    >
+                      {item.rul ? `${item.rul.pct}%` : "n/a"}
+                    </p>
+                  </div>
+                  {item.rul ? (
+                    <>
+                      <div className="mt-2 h-2 w-full bg-paper ring-1 ring-inset ring-rule">
+                        <div
+                          className={`h-full ${tone(rulTone(item.rul.pct)).bar}`}
+                          style={{ width: `${item.rul.pct}%` }}
+                        />
+                      </div>
+                      <p className="mt-1.5 font-mono text-[10px] text-muted">
+                        {item.rul.remaining} of {item.rul.total} {item.rul.unit} remaining
+                      </p>
+                      <p className="mt-1 text-[10px] leading-relaxed text-muted">{item.rul.basis}</p>
+                    </>
+                  ) : (
+                    <p className="mt-1.5 text-[10px] leading-relaxed text-muted">
+                      Not applicable — environmental assessment carries no service life.
+                    </p>
+                  )}
+                </div>
+
                 <dl className="px-3 py-1 text-[11px]">
                   {[
                     ["Inspected by", insp.technician],
@@ -592,15 +635,15 @@ const SCHEDULE_TABS = [
 ];
 
 const ROLL_FILTERS = [
-  { id: "all", label: "All Years", test: () => true },
+  { id: "all", label: "Show All", test: () => true },
   {
     id: "near",
-    label: "2026–2027 Expirations",
+    label: "Near-Term Expirations (2026–2027)",
     test: (r) => r.year === "2026" || r.year === "2027",
   },
   {
     id: "long",
-    label: "2028+ Long-Term",
+    label: "Anchors & Long-Term (2028+)",
     test: (r) => r.year !== "Vacant" && Number.parseInt(r.year, 10) >= 2028,
   },
 ];
@@ -1406,6 +1449,11 @@ function PhoneIcon() {
 export default function AssetPassport({ asset }) {
   const [view, setView] = useState("financial");
   const [docId, setDocId] = useState(null);
+  const [uwInputs, setUwInputs] = useState({
+    capRate: asset.underwriting.capRate.initial,
+    ltv: asset.underwriting.ltv.initial,
+    rate: asset.underwriting.rate.initial,
+  });
 
   const openDoc = useCallback((exhibit) => setDocId(exhibit), []);
   const closeDoc = useCallback(() => setDocId(null), []);
@@ -1437,7 +1485,7 @@ export default function AssetPassport({ asset }) {
             title="Underwriting Calculator"
             note="Drag any input to reprice the asset"
           >
-            <UnderwritingCalculator asset={asset} />
+            <UnderwritingCalculator asset={asset} inputs={uwInputs} onChange={setUwInputs} />
           </Section>
           <Section
             id="financials"

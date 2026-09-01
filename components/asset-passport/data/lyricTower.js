@@ -102,6 +102,10 @@ export const lyricTower = {
     {
       title: "Energy & MEP Systems",
       badge: "VERIFIED",
+      rul: {
+        remaining: 15, total: 25, unit: "yrs", pct: 60,
+        basis: "Centrifugal chiller EUL 25 years (ASHRAE), installed 2016.",
+      },
       exhibit: "C-2",
       inspection: {
         technician: "R. Alvarez, PE — Aegis Building Sciences",
@@ -134,6 +138,10 @@ export const lyricTower = {
     {
       title: "Envelope, Roof & Vertical",
       badge: "EXCELLENT",
+      rul: {
+        remaining: 10, total: 20, unit: "yrs", pct: 50,
+        basis: "60-mil TPO membrane EUL 20 years, installed 2016. Curtain wall gaskets are the shorter-dated item.",
+      },
       exhibit: "B-2",
       inspection: {
         technician: "M. Okonkwo, RRC — Sightline Roofing Consultants",
@@ -166,6 +174,7 @@ export const lyricTower = {
     {
       title: "Environmental — Phase I",
       badge: "UNDER REVIEW",
+      rul: null,
       exhibit: "B-1",
       inspection: {
         technician: "Assignment pending — Terracon Consultants, Inc.",

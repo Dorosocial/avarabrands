@@ -32,10 +32,13 @@ The dossier splits into three views driven by React state:
   the asset live. NOI is held constant, so price moves inversely with the cap
   rate; the DSCR readout flags `CLEARS` / `TIGHT` / `BREACH` against a 1.25×
   covenant. Debt service is a true 30-year amortising payment, not interest-only.
+  Inputs live in the root component, so switching dossier views never discards a
+  model the reader has dialled in.
 - **Inspection trays** — each integrity row expands to technician notes, service
-  timestamps and warranty serials, with a button that opens the underlying
-  exhibit.
-- **Lease roll filters** — `All Years` / `2026–2027` / `2028+`. Bars rescale and
+  timestamps, warranty serials and a remaining-useful-life meter banded against
+  expected service life, with a button that opens the underlying exhibit.
+- **Lease roll filters** — `Show All` / `Near-Term (2026–2027)` /
+  `Anchors & Long-Term (2028+)`. Bars rescale and
   the footer re-foots to the visible set, so a filtered subtotal is always
   correct for what is on screen.
 - **Document previews** — any exhibit row opens a modal facsimile. Open exhibits
