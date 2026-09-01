@@ -1,5 +1,56 @@
 @import "tailwindcss";
 
+@theme {
+  /* Institutional palette — bone paper, navy ink, forest accent. */
+  --color-paper: #f8f9fa;
+  --color-surface: #ffffff;
+  --color-ink: #0a192f;
+  --color-graphite: #1e293b;
+  --color-muted: #5a6472;
+  --color-faint: #8a93a2;
+  --color-rule: #e2e8f0;
+  --color-rule-strong: #cbd5e1;
+  --color-forest: #105b38;
+  --color-forest-tint: #eaf2ed;
+  --color-ochre: #8a6100;
+  --color-ochre-tint: #fbf3e2;
+  --color-oxblood: #8c2f39;
+  --color-oxblood-tint: #fbeeef;
+
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+}
+
 html {
   -webkit-text-size-adjust: 100%;
+}
+
+/* Every figure in the document aligns on the digit. */
+.font-mono,
+table {
+  font-variant-numeric: tabular-nums;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-forest);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: #cfe0d6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
 }

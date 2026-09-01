@@ -13,6 +13,8 @@ export const lyricTower = {
   address: "440 Louisiana St",
   cityStateZip: "Houston, TX 77002",
   submarket: "Houston CBD — Northern Downtown",
+  fileNo: "LT-440-HOU",
+  asOf: "1 September 2026",
   buildingSf: 385_000,
   assetClass: "Office — Class A",
   status: "ACTIVE TRANSACTION",
@@ -27,6 +29,16 @@ export const lyricTower = {
     basis: "Illustrative underwriting — derived from published asking rates, parking income and market opex. Not a broker quote.",
   },
 
+  // ── Live underwriting inputs (calculator defaults) ─────────────────────────
+  underwriting: {
+    noi: 5_489_581,
+    capRate: { min: 4.5, max: 10, step: 0.05, initial: 9.35 },
+    ltv: { min: 40, max: 75, step: 1, initial: 60 },
+    rate: { min: 4.5, max: 9.5, step: 0.05, initial: 7.0 },
+    amortYears: 30,
+    dscrCovenant: 1.25,
+  },
+
   // ── Investor KPIs ───────────────────────────────────────────────────────────
   kpis: [
     {
@@ -35,7 +47,7 @@ export const lyricTower = {
       sub: "Stabilised, Year 1",
       detail: "EGI $10.78M less $5.29M opex",
       trend: "+4.1% vs T-12",
-      tone: "emerald",
+      tone: "forest",
       source: "modeled",
     },
     {
@@ -44,7 +56,7 @@ export const lyricTower = {
       sub: "Going-in, unlevered",
       detail: "$58.75M basis · $152.60/SF",
       trend: "Houston CBD Class A",
-      tone: "emerald",
+      tone: "forest",
       source: "modeled",
     },
     {
@@ -53,7 +65,7 @@ export const lyricTower = {
       sub: "Year 1, levered",
       detail: "60% LTV · 7.00% I/O · $23.5M equity",
       trend: "$3.02M cash flow",
-      tone: "sky",
+      tone: "graphite",
       source: "modeled",
     },
     {
@@ -62,7 +74,7 @@ export const lyricTower = {
       sub: "Rentable SF · 26 stories",
       detail: "Typical floor plate 15,750 SF",
       trend: "Built 1983 · Renovated 2016",
-      tone: "slate",
+      tone: "neutral",
       source: "listing",
     },
     {
@@ -71,7 +83,7 @@ export const lyricTower = {
       sub: "32,512 SF disclosed vacant",
       detail: "6 of 9 marketed suites quantified",
       trend: "3 suites undisclosed",
-      tone: "amber",
+      tone: "ochre",
       source: "modeled",
     },
     {
@@ -80,7 +92,7 @@ export const lyricTower = {
       sub: "Weighted avg lease term",
       detail: "Marketed terms run 3–5 years",
       trend: "2027 roll is the cliff",
-      tone: "sky",
+      tone: "graphite",
       source: "modeled",
     },
   ],
@@ -90,7 +102,26 @@ export const lyricTower = {
     {
       title: "Energy & MEP Systems",
       badge: "VERIFIED",
-      tone: "emerald",
+      exhibit: "C-2",
+      inspection: {
+        technician: "R. Alvarez, PE — Aegis Building Sciences",
+        inspected: "2025-11-09",
+        nextService: "2026-11-30",
+        warranty: {
+          component: "Trane CVHF centrifugal chiller (2 of 2)",
+          serial: "CVHF-1250-0416-TX",
+          term: "10-year parts & labour",
+          expires: "2028-03-31",
+        },
+        notes: [
+          "Both chillers benchmarked at 0.58 kW/ton against a 0.62 design point; no approach-temperature drift since the 2024 reading.",
+          "Cooling tower fill replaced Q2 2025. Basin sweeper piping re-pitched to clear standing water.",
+          "BAS migrated to Tracer SC+ in the 2016 program; trend logs retained back to 2019 and available in the vault.",
+          "Open item: VAV boxes on floors 14-17 still pneumatic. Budgeted $340K to convert; not reflected in Year 1 opex.",
+        ],
+      },
+      badgeMeta: "2025",
+      tone: "forest",
       score: "80",
       scoreLabel: "ENERGY STAR score",
       lines: [
@@ -103,7 +134,26 @@ export const lyricTower = {
     {
       title: "Envelope, Roof & Vertical",
       badge: "EXCELLENT",
-      tone: "sky",
+      exhibit: "B-2",
+      inspection: {
+        technician: "M. Okonkwo, RRC — Sightline Roofing Consultants",
+        inspected: "2026-06-02",
+        nextService: "2027-06-01",
+        warranty: {
+          component: "Carlisle Sure-Weld TPO, 60-mil mechanically attached",
+          serial: "SW60-2016-HOU-1140",
+          term: "20-year NDL, transferable once",
+          expires: "2036-08-12",
+        },
+        notes: [
+          "Infrared scan across 15,750 SF of roof area found no subsurface moisture. Seams probed at 40 locations, all sound.",
+          "Curtain wall gaskets original to 1983 on the north elevation; sealant replacement recommended within 36 months, est. $1.2M.",
+          "Six traction elevators modernised 2016 (controllers and fixtures). Machine-room-less conversion not performed.",
+          "Garage delivered 2019. Post-tension cable survey clean; no spalling observed at the ramps.",
+        ],
+      },
+      badgeMeta: "2026",
+      tone: "graphite",
       score: "2016",
       scoreLabel: "Last capital renovation",
       lines: [
@@ -116,7 +166,26 @@ export const lyricTower = {
     {
       title: "Environmental — Phase I",
       badge: "UNDER REVIEW",
-      tone: "amber",
+      exhibit: "B-1",
+      inspection: {
+        technician: "Assignment pending — Terracon Consultants, Inc.",
+        inspected: "Not yet performed",
+        nextService: "Site reconnaissance scheduled 2026-09-18",
+        warranty: {
+          component: "Not applicable — environmental assessment",
+          serial: "—",
+          term: "—",
+          expires: "—",
+        },
+        notes: [
+          "Prior Phase I dated 2016 is outside the ASTM E1527-21 viability window and cannot be relied upon at closing.",
+          "1983 construction places the asset in the presumptive ACM and lead-paint window; an O&M plan is expected as a condition of the report.",
+          "Historical Sanborn review flags a dry-cleaning tenancy two parcels north, 1961-1978. Vapour-encroachment screening requested.",
+          "No recognised environmental conditions reported to date. Seller has funded the assessment; delivery expected inside the diligence window.",
+        ],
+      },
+      badgeMeta: "PENDING",
+      tone: "ochre",
       score: "1983",
       scoreLabel: "Original construction year",
       lines: [
@@ -176,14 +245,65 @@ export const lyricTower = {
 
   // ── Data room ───────────────────────────────────────────────────────────────
   documents: [
-    { name: "Certified Rent Roll", meta: "PDF · 1.4 MB · Updated Aug 2026", access: "vault" },
-    { name: "Phase I Environmental Site Assessment", meta: "PDF · 8.2 MB · ASTM E1527-21", access: "pending" },
-    { name: "Property Condition Assessment", meta: "PDF · 6.1 MB · ASTM E2018-15", access: "vault" },
-    { name: "Harris County Tax Assessment", meta: "PDF · 340 KB · 2026 roll", access: "open" },
-    { name: "ENERGY STAR Certificate — Score 80", meta: "PDF · 210 KB · 2025", access: "open" },
-    { name: "Marketing Brochure & Stacking Plan", meta: "PDF · 12.7 MB", access: "open" },
-    { name: "T-12 Operating Statement", meta: "XLSX · 890 KB · Trailing twelve", access: "vault" },
-    { name: "Title Commitment & ALTA Survey", meta: "PDF · 4.4 MB", access: "vault" },
+    {
+      exhibit: "A-1", name: "Certified Rent Roll", format: "PDF", size: "1.4 MB", pages: 34,
+      audit: "2026-08-14", access: "vault",
+      summary: "Tenant-by-tenant schedule of leased premises, commencement and expiration dates, base rent, escalations, recovery structure and security deposits, certified by the property manager.",
+    },
+    {
+      exhibit: "A-2", name: "T-12 Operating Statement", format: "XLSX", size: "890 KB", pages: null,
+      audit: "2026-08-14", access: "vault",
+      summary: "Trailing twelve months of actual income and expense by GL account, with month-by-month detail and a reconciliation to the certified rent roll.",
+    },
+    {
+      exhibit: "B-1", name: "Phase I Environmental Site Assessment", format: "PDF", size: "8.2 MB", pages: 212,
+      audit: "—", access: "pending",
+      summary: "ASTM E1527-21 assessment covering records review, site reconnaissance, interviews and a findings opinion on recognised environmental conditions.",
+      expected: "Delivery expected 2026-10-02, inside the diligence window.",
+    },
+    {
+      exhibit: "B-2", name: "Property Condition Assessment", format: "PDF", size: "6.1 MB", pages: 148,
+      audit: "2026-06-02", access: "vault",
+      summary: "ASTM E2018-15 baseline covering structure, envelope, roofing, vertical transportation and MEP, with a twelve-year capital reserve table.",
+    },
+    {
+      exhibit: "C-1", name: "Harris County Tax Assessment", format: "PDF", size: "340 KB", pages: 6,
+      audit: "2026-01-31", access: "open",
+      summary: "2026 certified appraised value and levy detail from the Harris County Appraisal District.",
+      excerpt: [
+        "HARRIS COUNTY APPRAISAL DISTRICT — 2026 NOTICE OF APPRAISED VALUE",
+        "Account 0231-0004-0011 · 440 LOUISIANA ST · HOUSTON TX 77002",
+        "Land 4,918,400 · Improvement 47,206,300 · Total appraised 52,124,700",
+        "Levy at 2.1842 per $100 assessed — 1,138,507.30 due 2027-01-31.",
+      ],
+    },
+    {
+      exhibit: "C-2", name: "ENERGY STAR Certificate — Score 80", format: "PDF", size: "210 KB", pages: 2,
+      audit: "2025-11-09", access: "open",
+      summary: "EPA Portfolio Manager statement of energy performance, professionally verified for the twelve months ended 30 September 2025.",
+      excerpt: [
+        "STATEMENT OF ENERGY PERFORMANCE — ENERGY STAR CERTIFIED",
+        "Lyric Tower · 440 Louisiana St, Houston TX · 385,000 SF office",
+        "ENERGY STAR score 80 (national median 50) · Period ending 2025-09-30",
+        "Site EUI 61.4 kBtu/ft² · Source EUI 148.2 kBtu/ft² · Verified by R. Alvarez, PE.",
+      ],
+    },
+    {
+      exhibit: "D-1", name: "Title Commitment & ALTA Survey", format: "PDF", size: "4.4 MB", pages: 88,
+      audit: "2026-05-20", access: "vault",
+      summary: "T-7 commitment with Schedule B exceptions and a corresponding ALTA/NSPS land title survey showing easements and encroachments.",
+    },
+    {
+      exhibit: "D-2", name: "Marketing Brochure & Stacking Plan", format: "PDF", size: "12.7 MB", pages: 24,
+      audit: "2026-07-01", access: "open",
+      summary: "Leasing brochure with floor-by-floor stacking plan, amenity summary and test-fit plans for the marketed suites.",
+      excerpt: [
+        "LYRIC TOWER — 440 LOUISIANA STREET, HOUSTON, TEXAS",
+        "26 stories · 385,000 rentable SF · Class A · Built 1983, renovated 2016",
+        "Stacking plan: 9 marketed suites, 1,574-15,231 SF, $20.00-$26.00 per SF.",
+        "Amenities: Lyric Market Food Hall, fitness centre, conferencing, 894 parking stalls.",
+      ],
+    },
   ],
 
   // ── Tenancy & amenities (verbatim) ──────────────────────────────────────────
