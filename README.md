@@ -4,19 +4,40 @@ Static marketing site (`index.html`) plus the **Digital Asset Passport** app —
 institutional transaction terminal for commercial real estate and heavy
 industrial equipment deals.
 
-## Asset Passport
+## Asset Passports
+
+Two asset classes on one shared kit.
 
 | Path | Purpose |
 | --- | --- |
-| `components/asset-passport/AssetPassport.jsx` | The dashboard. Fully data-driven — takes one `asset` record. |
-| `components/asset-passport/data/lyricTower.js` | Parsed Lyric Tower listing record. |
-| `app/assets/lyric-tower/page.jsx` | Route rendering the passport. |
+| `components/asset-passport/shared.jsx` | Primitives and sections common to every asset class — masthead, nav, metric band, integrity trays, exhibit index, document modal, colophon. |
+| `components/asset-passport/AssetPassport.jsx` | Commercial real estate: cap-rate underwriting, lease roll, marketed suites. |
+| `components/asset-passport/EquipmentPassport.jsx` | Heavy industrial equipment: duty-cycle economics, service intervals, operating sequence. |
+| `components/asset-passport/data/lyricTower.js` | Lyric Tower — Class A office, Houston CBD. |
+| `components/asset-passport/data/wheelDiscTilter.js` | Wheel disc hydraulic tilter — 1 t, dual platform. |
 | `app/globals.css` | Design tokens (`@theme`) — palette and typefaces. |
 
 ```bash
 npm install
-npm run dev     # http://localhost:3000/assets/lyric-tower
+npm run dev     # / lists both passports
 ```
+
+Anything that names a specific asset type — cap rates, lease rolls, duty cycles —
+lives in the passport that owns it. `shared.jsx` holds only what is genuinely
+common, which is why the CRE passport's table headers never leak "% NRA" into a
+machine dossier.
+
+### The two calculators
+
+A cap rate has no meaning for a machine, so the equipment passport substitutes
+the analogous engine rather than reusing the CRE one:
+
+| | Real estate | Equipment |
+| --- | --- | --- |
+| Sliders | Cap rate, LTV, interest rate | Tilt time (throttle valve), cycles per shift, capex |
+| Headline | Implied purchase price | Annual throughput |
+| Constraint | DSCR against a 1.25× covenant | Payback against a 24-month hurdle |
+| Operational limit | — | Duty utilisation; over 100% the cell cannot meet demand |
 
 ### Interaction model
 
